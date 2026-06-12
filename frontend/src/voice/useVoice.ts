@@ -2,6 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import type { EngineKind, VoiceEngine } from './types';
 import { WebSpeechEngine } from './WebSpeechEngine';
 import { QiniuAsrEngine } from './QiniuAsrEngine';
+import { matchVoiceControl } from './voiceControl';
 
 interface UseVoiceOptions {
   /** 后端是否已配置七牛密钥（决定默认引擎）。 */
@@ -38,6 +39,11 @@ export function useVoice({ qiniuConfigured, onFinal }: UseVoiceOptions) {
       onPartial: setPartial,
       onFinal: (text) => {
         setPartial('');
+        // 先拦截麦克风控制口令（如“停止聆听”），避免被当作绘图指令
+        if (matchVoiceControl(text) === 'stop') {
+          engine.stop();
+          return;
+        }
         onFinalRef.current(text);
       },
       onError: (msg) => {

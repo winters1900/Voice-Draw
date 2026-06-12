@@ -136,7 +136,7 @@ describe('全局命令与容错', () => {
     const { exec } = setup();
     const r = exec.execute({ op: 'unknown', raw: '随便说点啥' } as DrawCommand);
     expect(r.ok).toBe(false);
-    expect(r.message).toContain('随便说点啥');
+    expect(r.message).toContain('再说一次'); // 友好的语音追问，而非回读原话
   });
 
   it('未识别颜色返回失败', () => {

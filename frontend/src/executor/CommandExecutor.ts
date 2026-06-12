@@ -57,7 +57,7 @@ export class CommandExecutor {
       case 'export':
         return { ok: true, message: '已导出当前画布', command: cmd };
       case 'unknown':
-        return { ok: false, message: cmd.reason ?? `没听懂：${cmd.raw}`, command: cmd };
+        return { ok: false, message: '没太听清，可以换种说法再说一次，比如「画一个红色的圆」', command: cmd };
     }
   }
 

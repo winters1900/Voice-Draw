@@ -33,9 +33,24 @@ const CN_NUM: Record<string, number> = {
 
 const CONNECTORS = /然后|接着|再|还有|和|，|,|。|；|;|、|\s+/;
 
-/** 解析整句：先按连接词拆段，每段独立解析，再合并命令。 */
+// 口语填充词/纠错前缀，归一化时剥离以提升识别鲁棒性（容错）。
+const LEADING_FILLERS = /^(那个|这个|嗯+|呃+|啊+|帮我|帮忙|请|麻烦|我想|我要|我希望|给我|能不能|可以|来)/;
+const CORRECTION_MARKERS = /(不对|不是|错了|搞错了|说错了|重新|改一下)[，,、:：\s]*/g;
+
+/** 规范化口语输入：去除填充词、纠错标记与句末标点，让规则匹配更稳。 */
+export function normalizeInput(text: string): string {
+  let t = text.trim().replace(CORRECTION_MARKERS, '');
+  let prev: string;
+  do {
+    prev = t;
+    t = t.replace(/^[，,、。：:\s]+/, '').replace(LEADING_FILLERS, '').trim();
+  } while (t !== prev && t.length);
+  return t.replace(/[。.!！~～]+$/g, '').trim();
+}
+
+/** 解析整句：先归一化，再按连接词拆段，每段独立解析，合并命令。 */
 export function parseWithRules(input: string): RuleParseResult {
-  const text = input.trim();
+  const text = normalizeInput(input);
   if (!text) return { commands: [], matched: false };
 
   const segments = text.split(CONNECTORS).map((s) => s.trim()).filter(Boolean);
