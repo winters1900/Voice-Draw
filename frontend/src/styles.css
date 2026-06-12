@@ -197,6 +197,19 @@ canvas {
 .console__cmd {
   font-size: 13px;
   margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.console__badge {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  white-space: nowrap;
 }
 
 .console__ok { color: #5cd28a; font-size: 12px; }
