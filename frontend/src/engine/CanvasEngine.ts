@@ -99,6 +99,20 @@ export class CanvasEngine {
     return shape;
   }
 
+  /** 批量创建：一次提交历史，整组作为一个可撤销单元（用于“画三个圆”）。 */
+  addMany(specs: Array<{ type: ShapeType; props?: Partial<Shape> }>): Shape[] {
+    if (!specs.length) return [];
+    this.commit();
+    const created = specs.map(({ type, props }) => {
+      const shape = this.makeShape(type, props ?? {});
+      this.shapes.push(shape);
+      return shape;
+    });
+    this.selectedIds = new Set(created.map((s) => s.id));
+    this.emit();
+    return created;
+  }
+
   private makeShape(type: ShapeType, props: Partial<Shape>): Shape {
     const base: Shape = {
       id: nextShapeId(),
