@@ -40,6 +40,32 @@ body {
   font-weight: 600;
 }
 
+.app__status {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.app__header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app__help-btn {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.app__help-btn:hover {
+  border-color: var(--accent);
+}
+
 .debug-toolbar {
   display: flex;
   align-items: center;
@@ -103,6 +129,9 @@ canvas {
   background: #ffffff;
   border-radius: 6px;
   box-shadow: 0 4px 24px #0008;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .app__side {
@@ -303,3 +332,81 @@ canvas {
 
 .console__ok { color: #5cd28a; font-size: 12px; }
 .console__fail { color: #ff7a7a; font-size: 12px; }
+
+/* —— 指令帮助卡 —— */
+.help {
+  position: fixed;
+  inset: 0;
+  background: #000a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 24px;
+}
+
+.help__panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 760px;
+  width: 100%;
+  max-height: 86vh;
+  overflow-y: auto;
+}
+
+.help__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.help__head h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.help__head button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.help__sub {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 8px 0 18px;
+}
+
+.help__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.help__group h3 {
+  font-size: 13px;
+  margin: 0 0 8px;
+  color: var(--accent);
+}
+
+.help__group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.help__group li {
+  font-size: 13px;
+  color: var(--text);
+  background: #0f1117;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
